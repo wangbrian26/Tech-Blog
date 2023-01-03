@@ -15,9 +15,15 @@ Comment.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    postId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     sequelize,
+    timestamps: true,
+    modelName: "comment",
   }
 );
 

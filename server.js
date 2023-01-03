@@ -7,6 +7,7 @@ const helpers = require("./utils/helpers.js");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const hbs = exphbs.create();
 const sequelize = require("./config/connection.js");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
@@ -29,12 +30,13 @@ app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, "public")));
 
 app.use(require("./controller"));
 
-app.listen(PORT, () => {
-  console.log("Server is now open.");
-  sequelize.sync({ force: false });
+sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log("Server is now open.");
+  });
 });
